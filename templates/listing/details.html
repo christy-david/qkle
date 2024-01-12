@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+
+{% load slippers %}
+
+{% block title %}{{vehicle.make}} {{vehicle.model}} {{vehicle.registered_year}}{% endblock %}
+
+{% block content %}
+  {% if messages %}
+  <div class="mb-3 p-6 bg-green-100 rounded-xl m-4">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+  
+  <div class="mt-6 px-12 lg:px-36 py-12 text-sm">
+    <div class="flex justify-between items center mb-12">
+      <span>Home/ Cars/ 2019 Tata Harrier</span>
+      <span class="flex items-center justify-between space-x-8">
+        {% if request.user == vehicle.sold_by %}
+        <a href={% url "listing:edit" vehicle.vehicle_id %}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+          </svg>
+        </a>
+        <a href={% url "listing:delete-listing" vehicle.vehicle_id %}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-red-500" viewBox="0 0 16 16">
+            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1z"/>
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        {% else %}
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+          </svg>
+        </div>
+        {% endif %}
+      </span>
+    </div>
+
+    {% comment %} Carousel start {% endcomment %}
+    <div class="relative w-full grid grid-cols-12 lg:bg-gray-900" data-carousel="static">
+      <div class="col-span-1 relative hidden lg:block">
+        <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full w-full cursor-pointer group focus:outline-none bg-gray-900" data-carousel-prev>
+          <span class="inline-flex items-center justify-center w-10 h-10">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-8 h-8 text-gray-50" viewBox="0 0 16 16" aria-hidden="true">
+              <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+            </svg>
+            <span class="sr-only">Previous</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="relative h-[500px] overflow-hidden col-span-12 lg:col-span-10">
+        {% for i in vehicle_images %}
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+          <img src="/media/{{i.image}}" class="absolute block h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 object-contain object-center" alt="{{i.vehicle_id}}-{{i.image_id}}">
+        </div>
+        {% endfor %}
+      </div>
+    
+      <div class="col-span-1 relative hidden lg:block">
+        <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full w-full cursor-pointer group focus:outline-none bg-gray-900" data-carousel-next>
+          <span class="inline-flex items-center justify-center w-10 h-10">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-8 h-8 text-gray-50" viewBox="0 0 16 16" aria-hidden="true">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+            <span class="sr-only">Next</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="absolute z-30 flex -translate-x-1/2 space-x-5 bottom-5 left-1/2 bg-gray-900 bg-opacity-50 px-6 py-3 rounded-full opacity-2">
+        {% for i in vehicle_images %}
+        <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Image {{forloop.counter}}" data-carousel-slide-to={{forloop.counter}}></button>
+        {% endfor %}
+      </div>
+    </div>
+    {% comment %} Carousel end {% endcomment %}
+
+    <div class="grid grid-cols-2 gap-4 mt-12">
+      <div class="p-4">
+        <h1 class="text-xl font-semibold underline mb-6">Additional details</h1>
+        <div class="w-3/4"><p class="leading-6">{{vehicle.additional_details|linebreaks}}</p></div>
+      </div>
+      <div class="p-4">
+        <div>
+          <div class="flex items-center justify-between border-b border-b-gray-300 pb-12">
+            <h1 class="text-2xl font-bold">{{vehicle.make}} {{vehicle.model}}</h1>
+            <span class="text-2xl font-bold">₹ {{vehicle.price|floatformat:0}}</span>
+          </div>
+
+          <ul class="grid grid-cols-3 gap-8 border-b border-b-gray-300 py-12">
+            <li class="flex justify-start items-center space-x-2">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/8160/8160937.png"
+                height=24
+                width=24
+                alt="KMs Driven"
+              />
+              <span class="capitalize">{{vehicle.kms_driven}} KM</span>
+            </li>
+
+            <li class="flex justify-start items-center space-x-2">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/115/115101.png"
+                height=20
+                width=20
+                alt="Fuel Type"
+              />
+              <span class="capitalize">{{vehicle.fuel_type}}</span>
+            </li>
+
+            <li class="flex justify-start items-center space-x-2">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/7483/7483183.png"
+                height=21
+                width=21
+                alt="Transmission"
+              />
+              <span class="capitalize">{{vehicle.transmission}}</span>
+            </li>
+
+            <li class="flex justify-start items-center space-x-2">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/1480/1480645.png"
+                height=24
+                width=24
+                alt="Ownership"
+              />
+              <span>
+                {% if vehicle.no_of_owners == '1' %}
+                {{vehicle.no_of_owners}} <sup>st</sup> owner
+                {% else %}
+                  {% if vehicle.no_of_owners == '2' %}
+                  {{vehicle.no_of_owners}} <sup>nd</sup> owner
+                  {% else %}
+                    {% if vehicle.no_of_owners == '3' %}
+                    {{vehicle.no_of_owners}} <sup>rd</sup> owner
+                    {% else %}
+                      {% if vehicle.no_of_owners == '4' %}
+                      {{vehicle.no_of_owners}} <sup>th</sup> owner
+                      {% else %}
+                        {% if vehicle.no_of_owners == '4+' %}
+                        More than 4 owners
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+              </span>
+            </li>
+
+            <li class="flex justify-start items-center space-x-2">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/2838/2838912.png"
+                height=19
+                width=19
+                alt="Location"
+              />
+              <span class="capitalize">{{vehicle.location}}</span>
+            </li>
+
+            <li class="flex justify-start items-center space-x-2">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3239/3239948.png"
+                height=18
+                width=18
+                alt="Year"
+              />
+              <span class="capitalize">{{vehicle.registered_year}}</span>
+            </li>
+            <li>
+
+
+              {% if request.user != vehicle.sold_by %}
+                  <a
+                      href={% url "chat:new-chat" vehicle.vehicle_id %}
+                      class="text-gray-900 focus:outline-none rounded text-sm h-12 w-fit text-center inline-flex items-center"
+                    >
+                      <div
+                        class="h-full flex items-center justify-center bg-[#26D7CE] rounded-l px-3"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                        </svg>
+                      </div>
+                      <div
+                        class="h-full w-full flex items-center justify-center bg-[#23E5DB] rounded-r px-4"
+                      >
+                        <span class="uppercase font-semibold">Contact Seller</span>
+                      </div>
+                    </a>
+              {% endif %}
+            </li>
+          </ul>
+
+          <div class="flex items-center justify-between pt-6 pb-12 border-b border-b-gray-300">
+            <div class="text-xs"><span class="font-semibold">SKU:</span> <span>{{vehicle.vehicle_id}}</span></div>
+            <div class="text-xs"><span class="font-semibold capitalize underline">{{vehicle.sold_by}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} Advertisement start {% endcomment %}
+    <a href="#">
+      <img src="/media/{{ad.image}}" class="mb-16 mt-16 w-full" alt="Advertisement" />
+    </a>
+    {% comment %} Advertisement end {% endcomment %}
+
+    {% comment %} Related ads start {% endcomment %}
+    <h2 class="mb-12 text-3xl font-bold">Related ads</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+      {% for v in related %}
+        <div class="px-3 pt-2 pb-3 border border-gray-300 rounded relative">
+          {% if v.featured %}
+            <div class="absolute top-2 left-3 px-4 py bg-yellow-300 text-[10px] text-center uppercase flex items-center space-x-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-3 h-4" viewBox="0 0 16 16">
+                <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+              </svg>
+              <span>Featured</span>
+            </div>
+          {% endif %}
+          <a href="{% url 'listing:details' v.vehicle_id %}">
+            <div class="h-36 flex justify-center bg-gray-100">
+              {% with i=related_vehicle_images|get:v.vehicle_id %}
+                <img src="/media/{{ i.image }}" class="h-full" alt="{{v.vehicle_id}} - image" />
+              {% endwith %}
+            </div>
+
+            <div class="pt-6 px-2">
+              <div class="flex items-center justify-between space-x-6 mb-4">
+                <p class="font-extrabold text-xl">₹ {{ v.price|floatformat:0 }}</p>
+                <div class="border border-gray-300 p-3 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                  </svg>
+                </div>
+              </div>
+              <h2 class="text-sm font-semibold mb-4">{{ v.make }} {{v.model}}</h2>
+              <p class="text-sm text-gray-400 mb-8">{{ v.registered_year }} - {{v.kms_driven}} KMs</p>
+              <div class="flex items-center justify-between">
+                <div class="text-xs font-semibold flex items-center space-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                  </svg>
+                  <span>{{v.location}}</span>
+                </div>
+
+                <div class="text-xs font-semibold flex items-center space-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                  </svg>
+                  <span>{{v.created_at|date:"d M, Y"}}</span>
+                </div>
+              </div>
+              
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    {% comment %} Related ads end {% endcomment %}
+
+  </div>
+{% endblock  %}

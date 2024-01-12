@@ -1,0 +1,56 @@
+<!-- admin_dashboard/listings.html -->
+{% extends "admin_dashboard/base.html" %}
+{% load slippers %}
+
+{% block content %}
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead>
+      <tr>
+        <th class="py-2 align-top">Serial #</th>
+        <th class="py-2 align-top">Vehicle ID</th>
+        <th class="py-2 align-top">Make</th>
+        <th class="py-2 align-top">Model</th>
+        <th class="py-2 align-top">Price</th>
+        <th class="py-2 align-top">Image</th>
+        <th class="py-2 align-top">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for vehicle in vehicles %}
+        <tr>
+          <td class="py-2 text-left">{{ forloop.counter }}</td>
+          <td class="py-2 text-left">{{ vehicle.vehicle_id }}</td>
+          <td class="py-2 text-left">{{ vehicle.make }}</td>
+          <td class="py-2 text-left">{{ vehicle.model }}</td>
+          <td class="py-2 text-left">{{ vehicle.price }}</td>
+          <td class="py-2 text-left">
+            {% if vehicle.images.first %}
+              <img src="{{ vehicle.images.first.image.url }}" alt="First Image" class="h-16 w-16 object-cover">
+            {% else %}
+              No Image
+            {% endif %}
+          </td>
+          <td class="py-2 text-left">
+            <form method="post" action="{% url 'admin_dashboard:vehicles' %}" class="inline">
+              {% csrf_token %}
+              <input type="hidden" name="vehicle_id" value="{{ vehicle.vehicle_id }}">
+              {% if vehicle.published %}
+                <button type="submit" value="unpublish" name='action' class="ml-2 p-2 text-green-500">
+                  Unpublish
+                </button>
+              {% else %}
+                <button type="submit" value="publish" name='action' class="ml-2 p-2 text-blue-500">
+                  Publish
+                </button>
+              {% endif %}
+            </form>
+            <!-- Add an Edit button linking to the edit page -->
+            <a href="{% url 'admin_dashboard:edit_vehicle' vehicle_id=vehicle.vehicle_id %}" class="ml-2 p-2 text-yellow-500">
+              Edit
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

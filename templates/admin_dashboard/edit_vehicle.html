@@ -1,0 +1,65 @@
+<!-- edit_vehicle.html -->
+{% extends "base.html" %}
+
+{% block title %}Edit{% endblock %}
+
+{% block content %}
+  <div class="mx-auto w-1/2 mt-10">
+    <h2 class="text-2xl font-bold mb-10 text-center">Edit Details</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <div class="flex items-center flex-wrap gap-10 my-10">
+      {% for image in images %}
+        <div>
+          <img src="{{ image.image.url }}" alt="Vehicle Image" style="max-width: 200px;" id="{{ image.image_id }}"><br>
+          <button type="button" class="delete-image" data-image-id="{{ image.image_id }}">Delete</button>
+        </div>
+      {% endfor %}
+      </div>
+      <br>
+
+      <button type="submit" class="text-gray-900 focus:outline-none rounded text-sm h-12 text-center inline-flex items-center w-full">
+            <div
+                class="h-full flex items-center justify-center bg-[#26D7CE] rounded-l px-3"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+            </div>
+            <div
+                class="h-full w-full flex items-center justify-center bg-[#23E5DB] rounded-r px-4"
+            >
+                <span class="uppercase font-semibold uppercase">Save Changes</span>
+            </div>
+      </button>
+    </form>
+
+    
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const deleteButtons = document.querySelectorAll('.delete-image');
+
+      deleteButtons.forEach(button => {
+        button.addEventListener('click', async function () {
+          const imageId = button.dataset.imageId;
+          const response = await fetch(`/dashboard/delete-image/${imageId}/`, {
+            method: 'DELETE',
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}',  // Add the CSRF token to the headers
+            },
+          });
+
+          if (response.ok) {
+            button.previousElementSibling.remove(); // Remove the image
+            button.remove(); // Remove the delete button
+            document.getElementById(imageId).remove()
+          }
+        });
+      });
+    });
+  </script>
+{% endblock %}

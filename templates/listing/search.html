@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+    <h6 class="pl-36 mt-12 mb-16 text-sm font-semibold">Home/ Cars/ 2019 Tata Harrier</h6>
+    <div class="pb-6 grid grid-cols-4 gap-4 px-36 py-12 text-sm">
+        <div class="col-span-1 border-r border-r-gray-300">
+            {% comment %} <form method="get" action="{% url 'listing:search' %}">
+                <input name="query" class="w-full py-4 px-6 border rounded-xl" type="text" value="{{ query }}" placeholder="Search for a make or model...">
+
+                <button type="submit" class="mt-2 py-4 px-8 text-lg bg-teal-500 text-white rounded-xl">Search</button>
+            </form>
+
+            <hr class="my-6"> {% endcomment %}
+
+            <p class="font-bold mb-5 uppercase">Categories</p>
+
+            <ul>
+                {% for category in categories %}
+                    <li class="py-2 pr-2 rounded-xl{% if category.category_id == category_id %} bg-gray-900 text-gray-50{% endif %}">
+                        <a href="{% url 'listing:search' %}?query={{ query }}&category={{ category.category_id }}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <hr class="my-6">
+
+            <ul>
+                <li><a href="{% url 'listing:search' %}" class="mt-2 font-semibold flex items-center space-x-2"><span class="text-xl">X</span> <span>Clear filters</span></a>
+        </div>
+
+        <div class="col-span-3 pl-6">
+            <div class="flex items-center justify-between mb-10">
+                <p class="mb-4"><span class="font-bold mb-5 uppercase">{{vehicle_count}}</span> ad(s) were found</p>
+
+
+                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center inline-flex items-center" type="button">
+                    Sort By
+                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+                </button>
+
+                <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                    <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
+                    <li>
+                        <a
+                            href="?query={{ query }}&category={{ category_id }}&sort_by=-created_at"
+                            class="block px-4 py-2 {% if sort_by == '-created_at' %}bg-[#23E5DB]{% else %}hover:bg-gray-100{% endif %}"
+                        >
+                            Latest
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="?query={{ query }}&category={{ category_id }}&sort_by=price"
+                            class="block px-4 py-2 {% if sort_by == 'price' %}bg-[#23E5DB]{% else %}hover:bg-gray-100{% endif %}"
+                        >
+                            Price: lowest to highest
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="?query={{ query }}&category={{ category_id }}&sort_by=-price"
+                            class="block px-4 py-2 {% if sort_by == '-price' %}bg-[#23E5DB]{% else %}hover:bg-gray-100{% endif %}"
+                        >
+                            Price: highest to lowest
+                        </a>
+                    </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-3">
+                {% for vehicle in vehicles %}
+                    <div class="px-3 py-6 border border-gray-300 rounded bg-white">
+                        <a href="{% url 'listing:details' vehicle.vehicle_id %}">
+                            <div class="h-36 flex justify-center bg-gray-900">
+                                {% with image=vehicle_images|get:vehicle.vehicle_id %}
+                                <img src="{{ image.image.url }}" class="h-full" alt="" />
+                                {% endwith %}
+                            </div>
+
+                            <div class="pt-6 px-2">
+                            <div class="flex items-center justify-between space-x-6 mb-4">
+                                <p class="font-extrabold text-xl">₹ {{ vehicle.price|floatformat:0 }}</p>
+                                <div class="border border-gray-300 p-3 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                </svg>
+                                </div>
+                            </div>
+                            <h2 class="text-sm font-semibold mb-4">{{ vehicle.make }} {{vehicle.model}}</h2>
+                            <p class="text-sm text-gray-400 mb-8">{{ vehicle.registered_year }} - {{vehicle.kms_driven}} KMs</p>
+                            <div class="flex items-center justify-between">
+                                <div class="text-xs font-semibold flex items-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                                    <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                </svg>
+                                <span>{{vehicle.location}}</span>
+                                </div>
+
+                                <div class="text-xs font-semibold flex items-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                                </svg>
+                                <span>{{vehicle.created_at|date:"d M, Y"}}</span>
+                                </div>
+                            </div>
+                            
+                            </div>
+                        </a>
+                        </div>
+                {% endfor %}
+            </div>
+
+            {% comment %} Pagination start {% endcomment %}
+
+            <div class="mt-10 flex justify-center">
+                <div class="">
+                    {% if vehicles.has_previous %}
+                        <a href="?query={{ query }}&category={{ category_id }}&sort_by={{ sort_by }}&page=1" title="Go to first page">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 inline-block" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                            </svg>
+                        </a>
+                        <a href="?query={{ query }}&category={{ category_id }}&sort_by={{ sort_by }}&page={{ vehicles.previous_page_number }}" title="Go to previous page">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 inline-block" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                            </svg>
+                        </a>
+                    {% endif %}
+
+                    <span class="mx-10">
+                        Showing page {{ vehicles.number }} of {{ vehicles.paginator.num_pages }}
+                    </span>
+
+                    {% if vehicles.has_next %}
+                        <a href="?query={{ query }}&category={{ category_id }}&sort_by={{ sort_by }}&page={{ vehicles.next_page_number }}" title="Go to next page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-5 h-5 inline-block" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </a>
+                        <a href="?query={{ query }}&category={{ category_id }}&sort_by={{ sort_by }}&page={{ vehicles.paginator.num_pages }}" title="Go to last page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-5 h-5 inline-block" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% comment %} Pagination end {% endcomment %}
+        </div>
+    </div>
+{% endblock %}

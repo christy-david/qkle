@@ -1,0 +1,271 @@
+{% load slippers%}
+
+<header class="px-36 py-3 border-b border-b-gray-200">
+  <div class="flex items-center justify-between space-x-8">
+    <div class="flex items-center justify-between space-x-8">
+      <a href="/" class="text-4xl font-extrabold uppercase mr-8">
+        {% comment %} <img src="/public/logo.png" width="100" alt="Logo" /> {% endcomment %}
+        <svg width="80px" height="80px" viewBox="0 0 1024 1024" data-aut-id="icon" class="" fill-rule="evenodd"><path class="rui-w4DG7" d="M661.333 256v512h-128v-512h128zM277.333 298.667c117.824 0 213.333 95.531 213.333 213.333s-95.509 213.333-213.333 213.333c-117.824 0-213.333-95.531-213.333-213.333s95.509-213.333 213.333-213.333zM794.496 384l37.504 37.504 37.504-37.504h90.496v90.496l-37.504 37.504 37.504 37.504v90.496h-90.496l-37.504-37.504-37.504 37.504h-90.496v-90.496l37.504-37.504-37.504-37.504v-90.496h90.496zM277.333 426.667c-47.061 0-85.333 38.293-85.333 85.333s38.272 85.333 85.333 85.333c47.061 0 85.333-38.293 85.333-85.333s-38.272-85.333-85.333-85.333z"></path></svg>
+        <span class="sr-only">Logo</span>
+      </a>
+
+      <div class="">
+        <div class="relative">
+          <div
+            class="h-fit w-fit flex border border-gray-900 rounded items-center"
+          >
+            <input
+              placeholder="Select city"
+              name="select"
+              id="select"
+              class="block p-3 ps-5 appearance-none outline-none text-gray-900 text-sm w-full rounded placeholder-gray-800"
+              autocomplete="off"
+            />
+
+            <!-- <button
+            class="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-gray-600"
+          >
+            <svg
+              class="w-4 h-4 mx-2 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button> -->
+            <label
+              for="show_more"
+              class="cursor-pointer outline-none focus:outline-none border-l border-gray-900 transition-all text-gray-900 hover:text-gray-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="w-6 h-6 mx-4 fill-current"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                />
+              </svg>
+            </label>
+          </div>
+
+          <label for="show_more" class="sr-only">Show more</label>
+          <input
+            type="checkbox"
+            name="show_more"
+            id="show_more"
+            class="hidden peer"
+            checked
+          />
+          <!-- <div
+          class="absolute rounded shadow bg-white overflow-hidden hidden peer-checked:flex flex-col w-full mt-1 border border-gray-200"
+        >
+          <div class="cursor-pointer group">
+            <a
+              class="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100"
+              >Python</a
+            >
+          </div>
+          <div class="cursor-pointer group border-t">
+            <a
+              class="block p-2 border-transparent border-l-4 group-hover:border-blue-600 border-blue-600 group-hover:bg-gray-100"
+              >Javascript</a
+            >
+          </div>
+          <div class="cursor-pointer group border-t">
+            <a
+              class="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100"
+              >Node</a
+            >
+          </div>
+          <div class="cursor-pointer group border-t">
+            <a
+              class="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100"
+              >PHP</a
+            >
+          </div>
+        </div> -->
+        </div>
+      </div>
+
+      <form method="get" action="{% url 'listing:search' %}">
+        <label
+          for="default-search"
+          class="mb-2 text-sm font-medium text-gray-900 sr-only"
+          >Search</label
+        >
+        <div class="relative w-[30rem]">
+          <input
+            name="query"
+            value="{{ query }}"
+            type="search"
+            id="default-search"
+            class="block w-full p-3 ps-5 text-sm text-gray-900 border border-gray-900 outline-none rounded placeholder-gray-800"
+            placeholder="Search for a make or model..."
+            autocomplete="off"
+          />
+          <button
+            type="submit"
+            class="text-white absolute end-0 top-0 bg-gray-900 focus:outline-none font-medium rounded-r text-sm px-1 h-full border border-gray-900"
+          >
+            <svg
+              width="34"
+              height="34"
+              viewBox="0 0 34 34"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18.4167 7.08301C13.7417 7.08301 9.91667 10.908 9.91667 15.583C9.91667 17.5663 10.625 19.408 11.7583 20.8247L6.375 26.208L7.93333 27.7663L13.3167 22.383C14.7333 23.5163 16.575 24.2247 18.5583 24.2247C23.2333 24.2247 27.0583 20.3997 27.0583 15.7247C27.0583 11.0497 23.0917 7.08301 18.4167 7.08301ZM18.4167 21.958C14.875 21.958 12.0417 19.1247 12.0417 15.583C12.0417 12.0413 14.875 9.20801 18.4167 9.20801C21.9583 9.20801 24.7917 12.0413 24.7917 15.583C24.7917 19.1247 21.9583 21.958 18.4167 21.958Z"
+                fill="currentColor"
+              />
+            </svg>
+
+            <span class="sr-only">Search</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="flex items-center justify-between space-x-8">
+      {% if request.user.is_authenticated %}
+
+      {% comment %} Dropdown start {% endcomment %}
+      <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="click" class="capitalize focus:outline-none font-medium text-sm text-center inline-flex items-center" type="button">
+        {{request.user}} 
+        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
+      </button>
+
+      <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700">
+          <div class="py-2">
+            <span class='text-sm font-medium block px-4 py-2'>Balance: {{request.user.credits}}</span>
+          </div>
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+            <li>
+              <a href={% url "user_profile:user-listings" %} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My ads</a>
+            </li>
+            <li>
+              <a href={% url "payment:buy-credits" %} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Buy credits</a>
+            </li>
+            <li>
+              <a href={% url "user_profile:wishlist" %} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Favorites</a>
+            </li>
+            <li>
+              <a href={% url 'user_profile:reset-password' %} class="block px-4 py-2 hover:bg-gray-100">Reset password</a>
+            </li>
+            <li>
+              <a href={% url 'user_profile:edit-profile' %} class="block px-4 py-2 hover:bg-gray-100">Edit profile</a>
+            </li>
+            {% if request.user.is_superuser %}
+            <li>
+              <a href={% url "admin_dashboard:admin-home" %} class='block px-4 py-2 hover:bg-gray-100'>Dashboard</a>
+            </li>
+            {% endif %}
+            <li>
+              <a href={% url 'authentication:logout' %} class="block px-4 py-2 hover:bg-gray-100">Log out</a>
+            </li>
+          </ul>
+      </div>
+      {% comment %} Dropdown end {% endcomment %}
+
+      <a href={% url "chat:inbox" %}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+        </svg>
+      </a>
+      {% else %}
+        <a
+        href={% url "authentication:login" %}
+        class="text-gray-900 focus:outline-none rounded text-sm h-fit w-fit text-center inline-flex items-center"
+        >
+          <div class="h-full flex items-center justify-center rounded-l">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664z"
+              />
+            </svg>
+          </div>
+          <div
+            class="h-full w-full flex items-center justify-center rounded-r px-2"
+          >
+            <span class="capitalize font-semibold">Login</span>
+          </div>
+        </a>
+      {% endif %}
+
+      <a
+        href={% url "listing:sell" %}
+        class="text-gray-900 focus:outline-none rounded text-sm h-12 w-fit text-center inline-flex items-center"
+      >
+        <div
+          class="h-full flex items-center justify-center bg-[#26D7CE] rounded-l px-3"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 0c-.176 0-.35.006-.523.017l.064.998a7.117 7.117 0 0 1 .918 0l.064-.998A8.113 8.113 0 0 0 8 0M6.44.152c-.346.069-.684.16-1.012.27l.321.948c.287-.098.582-.177.884-.237L6.44.153zm4.132.271a7.946 7.946 0 0 0-1.011-.27l-.194.98c.302.06.597.14.884.237l.321-.947zm1.873.925a8 8 0 0 0-.906-.524l-.443.896c.275.136.54.29.793.459l.556-.831zM4.46.824c-.314.155-.616.33-.905.524l.556.83a7.07 7.07 0 0 1 .793-.458zM2.725 1.985c-.262.23-.51.478-.74.74l.752.66c.202-.23.418-.446.648-.648l-.66-.752zm11.29.74a8.058 8.058 0 0 0-.74-.74l-.66.752c.23.202.447.418.648.648l.752-.66m1.161 1.735a7.98 7.98 0 0 0-.524-.905l-.83.556c.169.253.322.518.458.793l.896-.443zM1.348 3.555c-.194.289-.37.591-.524.906l.896.443c.136-.275.29-.54.459-.793l-.831-.556zM.423 5.428a7.945 7.945 0 0 0-.27 1.011l.98.194c.06-.302.14-.597.237-.884l-.947-.321zM15.848 6.44a7.943 7.943 0 0 0-.27-1.012l-.948.321c.098.287.177.582.237.884l.98-.194zM.017 7.477a8.113 8.113 0 0 0 0 1.046l.998-.064a7.117 7.117 0 0 1 0-.918l-.998-.064zM16 8a8.1 8.1 0 0 0-.017-.523l-.998.064a7.11 7.11 0 0 1 0 .918l.998.064A8.1 8.1 0 0 0 16 8M.152 9.56c.069.346.16.684.27 1.012l.948-.321a6.944 6.944 0 0 1-.237-.884l-.98.194zm15.425 1.012c.112-.328.202-.666.27-1.011l-.98-.194c-.06.302-.14.597-.237.884l.947.321zM.824 11.54a8 8 0 0 0 .524.905l.83-.556a6.999 6.999 0 0 1-.458-.793l-.896.443zm13.828.905c.194-.289.37-.591.524-.906l-.896-.443c-.136.275-.29.54-.459.793l.831.556zm-12.667.83c.23.262.478.51.74.74l.66-.752a7.047 7.047 0 0 1-.648-.648l-.752.66zm11.29.74c.262-.23.51-.478.74-.74l-.752-.66c-.201.23-.418.447-.648.648l.66.752m-1.735 1.161c.314-.155.616-.33.905-.524l-.556-.83a7.07 7.07 0 0 1-.793.458l.443.896zm-7.985-.524c.289.194.591.37.906.524l.443-.896a6.998 6.998 0 0 1-.793-.459l-.556.831zm1.873.925c.328.112.666.202 1.011.27l.194-.98a6.953 6.953 0 0 1-.884-.237l-.321.947zm4.132.271a7.944 7.944 0 0 0 1.012-.27l-.321-.948a6.954 6.954 0 0 1-.884.237l.194.98zm-2.083.135a8.1 8.1 0 0 0 1.046 0l-.064-.998a7.11 7.11 0 0 1-.918 0l-.064.998zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"
+            />
+          </svg>
+        </div>
+        <div
+          class="h-full w-full flex items-center justify-center bg-[#23E5DB] rounded-r px-4"
+        >
+          <span class="uppercase font-semibold">Sell</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="pt-8">
+    <ul class="flex w-full items-center justify-between text-sm font-semibold">
+      {% #NavItem title="Cars" imageUrl="https://cdn-icons-png.flaticon.com/512/3423/3423683.png" height="21" width="21" url="http://127.0.0.1:8000/listing/search/?query=&category=4c8e1df9-5dbd-4ae4-aca3-64182a3bfab2" %}
+      {% /NavItem %}
+
+      {% #NavItem title="Bikes" imageUrl="https://cdn-icons-png.flaticon.com/512/9974/9974643.png" height="24" width="24" url="http://127.0.0.1:8000/listing/search/?query=&category=71179569-05d2-43e7-9948-f636c84ee028" %}
+      {% /NavItem %}
+
+      {% #NavItem title="Commercial" imageUrl="https://cdn-icons-png.flaticon.com/512/7650/7650468.png" height="32" width="32" url="http://127.0.0.1:8000/listing/search/?query=&category=78b91648-8757-4f45-a24f-9c7a28c9278f" %}
+      {% /NavItem %}
+
+      {% #NavItem title="Accessories" imageUrl="https://cdn-icons-png.flaticon.com/512/838/838958.png" height="22" width="22" url="#" %}
+      {% /NavItem %}
+
+      {% #NavItem title="Spare parts" imageUrl="https://cdn-icons-png.flaticon.com/512/95/95143.png" height="24" width="24" url="#" %}
+      {% /NavItem %}
+
+      {% #NavItem title="Garages" imageUrl="https://cdn-icons-png.flaticon.com/512/615/615430.png" height="22" width="22" url="#" %}
+      {% /NavItem %}
+
+      {% #NavItem title="Loans" imageUrl="https://cdn-icons-png.flaticon.com/512/10471/10471986.png" height="16" width="16" url="#" %}
+      {% /NavItem %}
+
+      {% #NavItem title="Insurance" imageUrl="https://cdn-icons-png.flaticon.com/512/6874/6874033.png" height="22" width="22" url="#" %}
+      {% /NavItem %}
+
+      {% #NavItem title="Other services" imageUrl="https://cdn-icons-png.flaticon.com/512/6606/6606308.png" height="22" width="22" url="#" %}
+      {% /NavItem %}
+    </ul>
+  </div>
+</header>

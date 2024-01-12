@@ -1,0 +1,102 @@
+{% load slippers%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/media/favicon.ico" />
+    <title>Dashboard | OLX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100;0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;0,9..40,1000;1,9..40,100;1,9..40,200;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700;1,9..40,800;1,9..40,900;1,9..40,1000&display=swap");
+      body {
+        font-family: "DM Sans", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="flex bg-gray-200 min-h-screen"> 
+
+  <aside class="hidden sm:flex sm:flex-col">
+    <a href="{% url 'core:index' %}" class="inline-flex items-center justify-center h-20 w-20 bg-[#26D7CE] hover:bg-[#23E5DB] focus:bg-[#23E5DB]">
+      <svg width="40px" height="40px" viewBox="0 0 1024 1024" data-aut-id="icon" class="" fill-rule="evenodd"><path class="rui-w4DG7" d="M661.333 256v512h-128v-512h128zM277.333 298.667c117.824 0 213.333 95.531 213.333 213.333s-95.509 213.333-213.333 213.333c-117.824 0-213.333-95.531-213.333-213.333s95.509-213.333 213.333-213.333zM794.496 384l37.504 37.504 37.504-37.504h90.496v90.496l-37.504 37.504 37.504 37.504v90.496h-90.496l-37.504-37.504-37.504 37.504h-90.496v-90.496l37.504-37.504-37.504-37.504v-90.496h90.496zM277.333 426.667c-47.061 0-85.333 38.293-85.333 85.333s38.272 85.333 85.333 85.333c47.061 0 85.333-38.293 85.333-85.333s-38.272-85.333-85.333-85.333z"></path></svg>
+      <span class="sr-only">Logo</span>
+    </a>
+    <div class="flex-grow flex flex-col justify-between text-gray-500 bg-gray-800">
+      <nav class="flex flex-col mx-4 my-6 space-y-4">
+        <a href="{% url 'admin_dashboard:admin-home' %}" class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+          <span>Users</span>
+        </a>
+        <a href="{% url 'admin_dashboard:vehicles' %}" class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+          <span>Vehicles</span>
+        </a>
+        <a href="{% url 'admin_dashboard:vehicles' %}" class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+          <span>Categories</span>
+        </a>
+        <a href="{% url 'admin_dashboard:sales_report' %}" class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+          <span>Sales Report</span>
+        </a>
+        <a href="{% url 'admin_dashboard:list_ads' %}" class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+          <span>Advertisements</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+  <div class="flex-grow text-gray-800">
+    <header class="flex items-center h-20 px-6 sm:px-10 bg-white">
+      <button class="block sm:hidden relative flex-shrink-0 p-2 mr-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:bg-gray-100 focus:text-gray-800 rounded-full">
+        <span class="sr-only">Menu</span>
+          <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </button>
+      <div class="relative w-full max-w-md sm:-ml-2">
+        <svg aria-hidden="true" viewBox="0 0 34 34" fill="currentColor" class="absolute h-6 w-6 mt-2 ml-2 text-gray-400">
+          <path
+            d="M18.4167 7.08301C13.7417 7.08301 9.91667 10.908 9.91667 15.583C9.91667 17.5663 10.625 19.408 11.7583 20.8247L6.375 26.208L7.93333 27.7663L13.3167 22.383C14.7333 23.5163 16.575 24.2247 18.5583 24.2247C23.2333 24.2247 27.0583 20.3997 27.0583 15.7247C27.0583 11.0497 23.0917 7.08301 18.4167 7.08301ZM18.4167 21.958C14.875 21.958 12.0417 19.1247 12.0417 15.583C12.0417 12.0413 14.875 9.20801 18.4167 9.20801C21.9583 9.20801 24.7917 12.0413 24.7917 15.583C24.7917 19.1247 21.9583 21.958 18.4167 21.958Z"
+            fill="currentColor"
+          />
+        </svg>
+        <input type="text" role="search" placeholder="Search..." class="text-sm focus:outline-none py-2 pl-10 pr-4 w-full border-4 border-transparent placeholder-gray-400 focus:bg-gray-50 rounded-lg" />
+      </div>
+      <div class="flex flex-shrink-0 items-center ml-auto">
+        <button class="inline-flex items-center p-2 hover:bg-gray-100 focus:bg-gray-100 rounded-lg">
+          <span class="sr-only">User Menu</span>
+          <div class="hidden md:flex md:flex-col md:items-end md:leading-tight">
+            <span class="font-semibold capitalize">{{request.user}}</span>
+          </div>
+        </button>
+        <div class="border-l pl-3 ml-3 space-x-1 flex items-center justify-center">
+          <a href={% url 'authentication:logout' %} class="inline-block relative text-gray-400 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
+            <span class="sr-only">Log out</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+              <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+            </svg>
+            </a>
+        </div>
+      </div>
+    </header>
+    <main class="p-6 sm:p-10 space-y-6">
+      {% comment %} <h2 class="text-2xl font-bold mb-4">User List</h2> {% endcomment %}
+      {% if messages %}
+        <div class="mb-3 p-6 bg-green-100 rounded-xl m-4">
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% block content%}{% endblock %}
+    </main>
+  </div>
+
+  <script>
+      if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href)
+      }
+
+      {% block scripts %}{% endblock  %}
+    </script>
+</body>
+</html>

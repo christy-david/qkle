@@ -1,0 +1,39 @@
+{% extends "admin_dashboard/base.html" %}
+
+{% block content %}
+  <h2 class="font-bold text-2xl my-10">Sales Report</h2>
+
+  <a href="{% url 'admin_dashboard:download_transactions_csv' %}" class="my-10 mx-4 px-4 py-2 rounded bg-blue-500 text-white">Download Transactions</a>
+
+  <img id="salesGraphContainer" src="{{ plot_url }}" alt="Sales Report">
+
+  <table class="table-auto border-collapse w-full">
+    <thead>
+      <tr>
+        <th class="border px-4 py-2">Payment ID</th>
+        <th class="border px-4 py-2">Razorpay Payment ID</th>
+        <th class="border px-4 py-2">Razorpay Order ID</th>
+        <th class="border px-4 py-2">Buyer ID</th>
+        <th class="border px-4 py-2">Amount</th>
+        <th class="border px-4 py-2">Credits</th>
+        <th class="border px-4 py-2">Coupon</th>
+        <th class="border px-4 py-2">Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for transaction in transactions %}
+        <tr>
+          <td class="border px-4 py-2">{{ transaction.payment_id }}</td>
+          <td class="border px-4 py-2">{{ transaction.razorpay_payment_id }}</td>
+          <td class="border px-4 py-2">{{ transaction.razorpay_order_id }}</td>
+          <td class="border px-4 py-2">{{ transaction.buyer_id }}</td>
+          <td class="border px-4 py-2">{{ transaction.amount }}</td>
+          <td class="border px-4 py-2">{{ transaction.credits }}</td>
+          <td class="border px-4 py-2">{{ transaction.timestamp }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  
+{% endblock %}

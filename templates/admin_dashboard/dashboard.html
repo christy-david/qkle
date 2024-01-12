@@ -1,0 +1,43 @@
+{% extends "admin_dashboard/base.html" %}
+{% load slippers%}
+
+{% block content %}
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead>
+      <tr>
+        <th class="py-2 align-top">Serial #</th>
+        <th class="py-2 align-top">Username</th>
+        <th class="py-2 align-top">Email</th>
+        <th class="py-2 align-top"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td class="py-2 text-left">{{ forloop.counter }}</td>
+          <td class="py-2 text-left">
+            <a href="{% url 'user_profile:view-profile' user.id %}">
+              {{ user.username }}
+            </a>
+          </td>
+          <td class="py-2 text-left">{{ user.email }}</td>
+          <td class="py-2 text-left">
+            <form method="post" action="{% url 'admin_dashboard:admin-home' %}" class="inline">
+              {% csrf_token %}
+              <input type="hidden" name="user_id" value="{{ user.id }}">
+              {% if user.is_banned %}
+                <button type="submit" class="ml-2 p-2 text-green-500">
+                  Unban
+                </button>
+              {% else %}
+                <button type="submit" class="ml-2 p-2 text-red-500">
+                  Ban
+                </button>
+              {% endif %}
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

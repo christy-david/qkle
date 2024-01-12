@@ -1,0 +1,35 @@
+<!-- profile.html -->
+
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+  {% if messages %}
+    <div class="mb-3 p-6 bg-green-100 rounded-xl m-4">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  <div class="container mx-auto my-8 p-8 bg-white shadow-md rounded-md">
+    <h1 class="text-3xl font-bold mb-6">{{ user.username }}'s Profile</h1>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <p class="text-lg font-semibold">First Name:</p>
+        <p class="text-gray-800">{{ user.first_name }}</p>
+      </div>
+      <div>
+        <p class="text-lg font-semibold">Last Name:</p>
+        <p class="text-gray-800">{{ user.last_name }}</p>
+      </div>
+      <div>
+        <p class="text-lg font-semibold">Email:</p>
+        <p class="text-gray-800">{{ user.email }}</p>
+      </div>
+      <!-- Add more profile fields as needed -->
+    </div>
+  </div>
+{% endblock %}

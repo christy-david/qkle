@@ -1,0 +1,11 @@
+django
+pillow
+slippers
+django-browser-reload
+kolo
+razorpay
+matplotlib
+django-plotly-dash
+# plotly
+# pandas
+# kaleido

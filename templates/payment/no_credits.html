@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Not enough credits{% endblock %}
+{% load custom_filters %}
+
+{% block content %}
+    <div class="mt-6 px-12 lg:px-36 py-12 text-sm">
+        <h1 class="mb-10 text-xl text-center text-red-500">You don't have enough credits to post an ad</h1>
+
+        <a href={% url "payment:buy-credits" %} class="text-gray-900 focus:outline-none rounded text-sm h-12 w-fit text-center inline-flex items-center w-full">
+            <div
+                class="h-full flex items-center justify-center bg-[#26D7CE] rounded-l px-3"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+            </div>
+            <div
+                class="h-full w-full flex items-center justify-center bg-[#23E5DB] rounded-r px-4"
+            >
+                <span class="uppercase font-semibold uppercase">Buy credits</span>
+            </div>
+        </a>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+  {{block.super}}
+{% endblock  %}

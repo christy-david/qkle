@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Buy credits{% endblock %}
+
+{% block content %}
+  <div class="mx-auto my-10 w-fit">
+    <h1 class="text-xl text-center font-semibold">Buy credits</h1>
+
+    <form id="buy-credits-form" class="mt-6">
+      <!-- Coupon Field -->
+      <input
+        type="hidden"
+        id="coupon"
+        name="coupon"
+        placeholder="Enter coupon code"
+        class="block p-3 ps-5 appearance-none outline-none text-gray-900 text-sm font-medium w-full rounded placeholder-gray-900 border border-gray-900 mb-6'"
+      />
+
+      <button class="btn bg-[#26D7CE] rounded px-2 py-3 w-full mt-6" id="pay-btn">Buy now</button>
+    </form>
+  </div>
+
+  <!-- Razorpay's Javascript code. -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% endblock %}
+
+{% block scripts %}
+  {{block.super}}
+
+  var options = {
+    // Enter the Key ID generated from the Dashboard
+    key: "{{ razorpay_merchant_key }}",
+
+    // Amount is in currency subunits.
+    // Default currency is INR. Hence,
+    // 50000 refers to 50000 paise
+    amount: "{{ razorpay_amount }}",
+    currency: "{{ currency }}",
+
+    // Your/store name.
+    name: "OLX",
+
+    // Pass the `id` obtained in the response of Step 1
+    order_id: "{{ razorpay_order_id }}",
+    callback_url: "{{ callback_url }}",
+  }
+
+  // initialise razorpay with the options.
+  var rzp1 = new Razorpay(options)
+
+  // add event listener to the payment button.
+  document.getElementById("pay-btn").onclick = function (e) {
+    rzp1.open()
+    e.preventDefault()
+  }
+{% endblock %}
