@@ -136,15 +136,15 @@ MEDIA_URL="/media/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-RAZOR_KEY_ID = 'rzp_test_UyeY66CTiucRiv'
-RAZOR_KEY_SECRET = 'a2biH7Ac7uuRSsfujTbN8jd9'
+RAZOR_KEY_ID = '#'
+RAZOR_KEY_SECRET = '#'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS=True
 EMAIL_HOST='smtp.gmail.com'
-EMAIL_FROM='christydavidcruze@gmail.com'
-EMAIL_HOST_USER='christydavidcruze@gmail.com'
-EMAIL_HOST_PASSWORD='jwht xofx uvjl tceg'
+EMAIL_FROM='#'
+EMAIL_HOST_USER='#'
+EMAIL_HOST_PASSWORD='#'
 EMAIL_PORT=587
 
 AUTH_USER_MODEL = 'authentication.CustomUser'
